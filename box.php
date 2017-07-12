@@ -7,6 +7,7 @@
   Requires: 2.3
   Description: A starting point for creating a Thesis 2.3 box.
   Class: byob_box_base
+  Docs: https://www.byobwebsite.com/addons/thesis-2/boxes/simple-footer-widgets/
   License: MIT
 
   Copyright 2017 BYOBWebsite.
@@ -153,9 +154,12 @@ class byob_box_base extends thesis_box {
 		$id      = ( ! empty( $this->options['id'] ) ? ' id="' . trim( esc_attr( $this->options['id'] ) ) . '"' : '' );
 		$message = ! empty( $this->options['message'] ) ? trim( wp_kses_post( $this->options['message'] ) ) : false;
 
-		if ( $message ) {
-			echo "$tab<$html$id$class>$message</$html>";
-		}
+		echo "$tab<$html$id$class>\n";
+			if ( $message ) {
+				echo $message;
+			}
+			echo $this->rotator(array_merge($args, array('depth' => $depth + 1)));
+		echo "$tab</$html>\n";
 	}
 
 }
