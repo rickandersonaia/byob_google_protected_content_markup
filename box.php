@@ -1,13 +1,13 @@
 <?php
 
 /*
-  Name: BYOB Box Base
+  Name: BYOB Google Protected Content Markup
   Author: Rick Anderson - BYOBWebsite.com
-  Version: 2.3
-  Requires: 2.3
-  Description: A starting point for creating a Thesis 2.3 box.
-  Class: byob_box_base
-  Docs: https://www.byobwebsite.com/addons/thesis-2/boxes/simple-footer-widgets/
+  Version: 2.5
+  Requires: 2.5
+  Description: This adds the option of using protected content markup that Google requires if you are exposing your paywall content to Google.  The settings are found in Template Options and must be set for each template.  It also adds a JSON LD object for each protected section on a page.
+  Class: byob_google_protected_content_markup
+  Docs: https://www.byobwebsite.com/
   License: MIT
 
   Copyright 2017 BYOBWebsite.
@@ -32,19 +32,14 @@
  *
  */
 
-// ANY place you see "my" or "byob" make sure you replace it with your own prefix
+
+class byob_google_protected_content_markup extends thesis_box {
 
 
-class byob_box_base extends thesis_box {
-
-//	 search and replace
-//	 BYOBBB
-//	 byobbb
-
-	public $type = 'box';
+	public $type = false;
 
 	public function translate() {
-		$this->title = $this->name = __( 'BYOB Box Base', 'byobbb' );
+		$this->title = __( 'BYOB Google Protected Content Markup', 'byobgpcm' );
 	}
 
 	/**
@@ -53,17 +48,17 @@ class byob_box_base extends thesis_box {
 	protected function construct() {
 		global $byob_ah;;
 
-		if ( ! defined( 'BYOBBB_PATH' ) ) {
-			define( 'BYOBBB_PATH', dirname( __FILE__ ) );
+		if ( ! defined( 'BYOBGPCM_PATH' ) ) {
+			define( 'BYOBGPCM_PATH', dirname( __FILE__ ) );
 		}
-		if ( ! defined( 'BYOBBB_URL' ) ) {
-			define( 'BYOBBB_URL', THESIS_USER_BOXES . '/' . basename( __DIR__ ) );
+		if ( ! defined( 'BYOBGPCM_URL' ) ) {
+			define( 'BYOBGPCM_URL', THESIS_USER_BOXES . '/' . basename( __DIR__ ) );
 		}
 
 
 		if ( is_admin() ) {
 			if ( ! class_exists( 'byob_asset_handler' ) ) {
-				include_once( BYOBBB_PATH . '/byob_asset_handler.php' );
+				include_once( BYOBGPCM_PATH . '/byob_asset_handler.php' );
 			}
 			if ( ! isset( $my_asset_handler ) ) {
 				$byob_ah = new byob_asset_handler;
@@ -71,73 +66,67 @@ class byob_box_base extends thesis_box {
 		}
 	}
 
-
-	/**
-	 * @return array of HTML Option settings
-	 *
-	 * Box API Method for formatting HTML Options
-	 */
-	protected function html_options() {
-		global $thesis;
-		$html = $thesis->api->html_options( array(
-			'div'     => 'div',
-			'section' => 'section',
-			'article' => 'article'
-		), 'div' );
-
-		return $html;
-	}
-
-	/**
-	 * @return array of Skin Content Options
-	 *
-	 * Box API Method for formatting Skin Content Options
-	 */
-	protected function options() {
-		return array(
-			'message' => array(
-				'type'    => 'textarea',
-				'label'   => __( 'Enter your message here', 'byobbb' ),
-				'tooltip' => __( 'HTML is allowed.', 'byobbb' ),
-				'code'    => true
-			)
-		);
-	}
-
 	/**
 	 *  Box API method for defining template options - note this is an options object
 	 */
 	protected function template_options() {
 		return array(
-			'title'  => __( 'Footer Widgets', 'byobscfw' ),
+			'title'  => __( 'Protected Content Markup', 'byobgpcm' ),
 			'fields' => array(
-				'remove_footer_widgets' => array(
+				'use_protected_content_markup' => array(
 					'type'    => 'checkbox',
 					'options' => array(
-						'yes' => __( 'Remove footer widgets from this template', 'byobscfw' )
-					)
+						'yes' => __( 'Use protected content markup on this template', 'byobgpcm' )
+					),
+					'dependents' => array('yes')
+				),
+				'use_more_protection' => array(
+					'type'    => 'checkbox',
+					'options' => array(
+						'yes' => __( 'Include "More Tag" protection', 'byobgpcm' )
+					),
+					'parent' => array(
+						'use_protected_content_markup' => 'yes')
+				),
+				'selector1' => array(
+					'type'    => 'text',
+					'width' => 'medium',
+					'code' => 'true',
+					'placeholder' => '.post_box',
+					'parent' => array(
+						'use_protected_content_markup' => 'yes'),
+					'tooltip' => __( 'place the full selector you wish to be marked as protected.  Include the class and or ID indicator', 'byobgpcm' )
+				),
+				'selector2' => array(
+					'type'    => 'text',
+					'width' => 'medium',
+					'code' => 'true',
+					'placeholder' => '.comment_list',
+					'parent' => array(
+						'use_protected_content_markup' => 'yes'),
+					'tooltip' => __( 'place the full selector you wish to be marked as protected.  Include the class and or ID indicator', 'byobgpcm' )
+				),
+				'selector3' => array(
+					'type'    => 'text',
+					'width' => 'medium',
+					'code' => 'true',
+					'placeholder' => '#commentform',
+					'parent' => array(
+						'use_protected_content_markup' => 'yes'),
+					'tooltip' => __( 'place the full selector you wish to be marked as protected.  Include the class and or ID indicator', 'byobgpcm' )
+				),
+				'selector4' => array(
+					'type'    => 'text',
+					'width' => 'medium',
+					'code' => 'true',
+					'placeholder' => '.post_box',
+					'parent' => array(
+						'use_protected_content_markup' => 'yes'),
+					'tooltip' => __( 'place the full selector you wish to be marked as protected.  Include the class and or ID indicator', 'byobgpcm' )
 				)
 			)
 		);
 	}
-
-	/**
-	 *  Box API method for defining post meta
-	 */
-	protected function post_meta() {
-		return array(
-			'title'  => __( 'Footer Widgets', 'byobscfw' ),
-			'fields' => array(
-				'remove_footer_widgets' => array(
-					'type'    => 'checkbox',
-					'options' => array(
-						'yes' => __( 'Remove footer widgets from this template', 'byobscfw' )
-					)
-				)
-			)
-		);
-	}
-
 	/**
 	 * @param array $args - a variable containing $depth and other potential data
 	 *
