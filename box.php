@@ -122,7 +122,7 @@ class byob_google_protected_content_markup extends thesis_box {
 					'parent'      => array(
 						'use_protected_content_markup' => 'yes'
 					),
-					'tooltip'     => __( 'place the full selector you wish to be marked as protected.  Include the class and or ID indicator', 'byobgpcm' )
+					'tooltip'     => __( 'place the class selector you wish to be marked as protected.  Include the class indicator', 'byobgpcm' )
 				),
 				'selector2'                    => array(
 					'type'        => 'text',
@@ -133,18 +133,18 @@ class byob_google_protected_content_markup extends thesis_box {
 					'parent'      => array(
 						'use_protected_content_markup' => 'yes'
 					),
-					'tooltip'     => __( 'place the full selector you wish to be marked as protected.  Include the class and or ID indicator', 'byobgpcm' )
+					'tooltip'     => __( 'place the class selector you wish to be marked as protected.  Include the class indicator', 'byobgpcm' )
 				),
 				'selector3'                    => array(
 					'type'        => 'text',
 					'label'       => __( 'Selector to protect', 'byobgpcm' ),
 					'width'       => 'medium',
 					'code'        => 'true',
-					'placeholder' => '#commentform',
+					'placeholder' => '.post_box',
 					'parent'      => array(
 						'use_protected_content_markup' => 'yes'
 					),
-					'tooltip'     => __( 'place the full selector you wish to be marked as protected.  Include the class and or ID indicator', 'byobgpcm' )
+					'tooltip'     => __( 'place the class selector you wish to be marked as protected.  Include the class indicator', 'byobgpcm' )
 				),
 				'selector4'                    => array(
 					'type'        => 'text',
@@ -155,7 +155,7 @@ class byob_google_protected_content_markup extends thesis_box {
 					'parent'      => array(
 						'use_protected_content_markup' => 'yes'
 					),
-					'tooltip'     => __( 'place the full selector you wish to be marked as protected.  Include the class and or ID indicator', 'byobgpcm' )
+					'tooltip'     => __( 'place the class selector you wish to be marked as protected.  Include the class indicator', 'byobgpcm' )
 				)
 			)
 		);
